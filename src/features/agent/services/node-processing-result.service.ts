@@ -33,7 +33,7 @@ export const nodeProcessingResultService = async (
     if (processing.data.format === "generate_poem") {
       ws.send("Creating poem...");
       console.log("Creating poem: " + lastProcessingResult);
-      const processedContent = await generatePoemService(lastProcessingResult);
+      const processedContent = await generatePoemService(lastProcessingResult, processing.data.rules);
       lastProcessingResult = processedContent;
       continue;
     }
@@ -51,8 +51,8 @@ export const convertTextService = (rawContent: any) => {
   return rawContent.toUpperCase();
 };
 
-export const generatePoemService = async (text: any) => {
-  const prompt = `Create a small poem with the following words: ${text}`;
+export const generatePoemService = async (text: any, rules: string[]) => {
+  const prompt = `Create a small poem with the following words: ${text} and the following rules: ${rules.join("\n")}`;
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) {
     throw new Error("OPENAI_API_KEY is not set");
