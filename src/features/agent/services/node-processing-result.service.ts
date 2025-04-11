@@ -30,10 +30,10 @@ export const nodeProcessingResultService = async (
       continue;
     }
 
-    if (processing.data.format === "create_poem") {
+    if (processing.data.format === "generate_poem") {
       ws.send("Creating poem...");
       console.log("Creating poem: " + lastProcessingResult);
-      const processedContent = await createPoemService(lastProcessingResult);
+      const processedContent = await generatePoemService(lastProcessingResult);
       lastProcessingResult = processedContent;
       continue;
     }
@@ -51,7 +51,7 @@ export const convertTextService = (rawContent: any) => {
   return rawContent.toUpperCase();
 };
 
-export const createPoemService = async (text: any) => {
+export const generatePoemService = async (text: any) => {
   const prompt = `Create a small poem with the following words: ${text}`;
   const openaiApiKey = process.env.OPENAI_API_KEY;
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
