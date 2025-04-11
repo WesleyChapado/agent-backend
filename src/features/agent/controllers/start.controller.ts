@@ -26,11 +26,10 @@ export const startController = async (
     const inputsExtractedContents = await nodeInputResultService(result.inputs, ws);
     if (!inputsExtractedContents || inputsExtractedContents.length === 0) return;
 
-    const inputsProcessedContents = await nodeProcessingResultService(result.processings, inputsExtractedContents, ws);
-    if (!inputsProcessedContents || inputsProcessedContents.length === 0) return;
+    const processedContent = await nodeProcessingResultService(result.processings, inputsExtractedContents, ws);
+    if (!processedContent || processedContent.length === 0) return;
 
-    const inputsOutputContents = await nodeOutputResultService(result.output, inputsProcessedContents, ws);
-    if (!inputsOutputContents || inputsOutputContents.length === 0) return;
+    await nodeOutputResultService(result.outputs, processedContent, ws)
 
     ws.send("Agent finished");
   }
