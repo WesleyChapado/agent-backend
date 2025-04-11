@@ -30,13 +30,13 @@ export const nodeProcessingResultService = async (
       continue;
     }
 
-    // if (processing.data.format === "create_poem") {
-    //   ws.send("Creating poem...");
-    //   console.log("Creating poem: " + lastProcessingResult);
-    //   const processedContent = await createPoemService(lastProcessingResult);
-    //   lastProcessingResult = processedContent;
-    //   continue;
-    // }
+    if (processing.data.format === "create_poem") {
+      ws.send("Creating poem...");
+      console.log("Creating poem: " + lastProcessingResult);
+      const processedContent = await createPoemService(lastProcessingResult);
+      lastProcessingResult = processedContent;
+      continue;
+    }
 
     ws.send("Invalid processing format");
     console.error("Invalid processing format");
@@ -51,22 +51,23 @@ export const convertTextService = (rawContent: any) => {
   return rawContent.toUpperCase();
 };
 
-// export const createPoemService = async (text: any) => {
-//   const prompt = `Crie um poema com o seguinte texto: ${text}`;
-//   const response = await fetch("https://api.openai.com/v1/chat/completions", {
-//     method: "POST",
-//     headers: {
-//       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       model: "gpt-3.5-turbo",
-//       messages: [{ role: "user", content: prompt }],
-//     }),
-//   });
+export const createPoemService = async (text: any) => {
+  const prompt = `Create a small poem with the following words: ${text}`;
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${openaiApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
 
-//   const data = await response.json() as {
-//     choices: Array<{ message: { content: string } }>;
-//   };
-//   return { completion: data.choices[0]?.message.content };
-// };
+  const data = await response.json() as {
+    choices: Array<{ message: { content: string } }>;
+  };
+  return data.choices[0]?.message.content;
+};
