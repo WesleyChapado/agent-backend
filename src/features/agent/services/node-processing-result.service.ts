@@ -54,6 +54,9 @@ export const convertTextService = (rawContent: any) => {
 export const generatePoemService = async (text: any) => {
   const prompt = `Create a small poem with the following words: ${text}`;
   const openaiApiKey = process.env.OPENAI_API_KEY;
+  if (!openaiApiKey) {
+    throw new Error("OPENAI_API_KEY is not set");
+  }
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
