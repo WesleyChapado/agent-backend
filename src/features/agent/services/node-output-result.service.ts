@@ -14,8 +14,7 @@ export const nodeOutputResultService = async (
     }
 
     if (output.data.format === "text") {
-      ws.send("Outputting text: " + processedContent);
-      console.log("Outputting text: " + processedContent);
+      ws.send(processedContent);
       continue;
     }
 
