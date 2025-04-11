@@ -29,7 +29,6 @@ agentRoute.get(
   upgradeWebSocket((c) => {
     return {
       async onMessage(event, ws) {
-        console.log(`Message from client: ${event.data}`)
         await startController(c, ws, event.data)
       },
       onClose(event, ws) {

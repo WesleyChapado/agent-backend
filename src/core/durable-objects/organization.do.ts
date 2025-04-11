@@ -4,7 +4,7 @@ import { DeleteStateDTO } from '../../features/agent/dto/delete-state.dto'
 
 export class OrganizationDO extends DurableObject {
   async getStates() {
-    let value = (await this.ctx.storage.get('value')) || []
+    let value: Array<any> = (await this.ctx.storage.get('value')) || []
     return value
   }
 

@@ -1,5 +1,4 @@
 import { Hono } from 'hono'
-import { createMiddleware } from 'hono/factory'
 import { OrganizationDO } from './src/core/durable-objects/organization.do'
 import { agentRoute } from './src/features/agent/routes/agent.routes'
 
